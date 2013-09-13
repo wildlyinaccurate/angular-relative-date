@@ -22,15 +22,17 @@ Use the filter by passing it date strings or `Date` objects.
 
 ```html
 <script>
-    angular.module('myApp').controller('MainCtrl', function($scope) {
-        $scope.dateString = '2013-09-08';
-        $scope.dateObject = new Date();
-    });
+angular.module('myApp').controller('MainCtrl', function($scope) {
+    $scope.dateString = '2013-09-08';
+    $scope.dateObject = new Date();
+});
 </script>
 
 <p>Date strings work: <strong>{{ dateString | relativeDate }}</strong></p>
 <p>And so do <code>Date</code> objects: <strong>{{ dateObject | relativeDate }}</strong></p>
 ```
+
+The above example will look something like this:
 
 > Date strings work: **a week ago**
 >
