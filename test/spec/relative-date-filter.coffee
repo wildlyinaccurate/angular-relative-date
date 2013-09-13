@@ -17,11 +17,6 @@ describe 'Filter: relativeDate', ->
     inject (now) ->
       expect(now).toEqual NOW
 
-  it 'Interprets date strings correctly', ->
-    expect(relativeDate '2013-08-30').toEqual 'a week ago'
-    expect(relativeDate '2013-09-07 00:00:00').toEqual '12 hours ago'
-    expect(relativeDate '2013-09-07 12:00:00').toEqual 'just now'
-
   it 'Has the correct response for each interval', ->
     expect(relativeDate '2013-09-07 12:00:00').toEqual 'just now'
     expect(relativeDate '2013-09-07 11:59:31').toEqual 'just now'
