@@ -33,6 +33,7 @@ Use the filter by passing it date strings or `Date` objects.
 ```
 
 > Date strings work: **a week ago**
+>
 > And so do `Date` objects: **just now**
 
 ## License
