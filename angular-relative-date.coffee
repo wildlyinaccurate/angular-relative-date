@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('relativeDate', [])
+  .value('now', new Date())
   .filter 'relativeDate', ['now', (now) ->
     (date) ->
       date = new Date(date) unless date instanceof Date
@@ -14,7 +15,7 @@ angular.module('relativeDate', [])
       year = day * 365
 
       calculateDelta = ->
-        delta = Math.round((+new Date(now) - date) / 1000)
+        delta = Math.round((now - date) / 1000)
 
       calculateDelta()
 

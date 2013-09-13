@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('relativeDate', []).filter('relativeDate', [
+  angular.module('relativeDate', []).value('now', new Date()).filter('relativeDate', [
     'now', function(now) {
       return function(date) {
         var calculateDelta, day, delta, hour, minute, month, week, year;
@@ -15,7 +15,7 @@
         month = day * 30;
         year = day * 365;
         calculateDelta = function() {
-          return delta = Math.round((+new Date(now) - date) / 1000);
+          return delta = Math.round((now - date) / 1000);
         };
         calculateDelta();
         if (delta > day && delta < week) {
