@@ -19,6 +19,7 @@ describe 'Filter: relativeDate', ->
       expect(now).toEqual NOW
 
   it 'Has the correct response for each interval', ->
+    # past
     expect(relativeDate '2013-09-07T12:00:00Z').toEqual 'just now'
     expect(relativeDate '2013-09-07T11:59:31Z').toEqual 'just now'
     expect(relativeDate '2013-09-07T11:59:29Z').toEqual '31 seconds ago'
@@ -42,3 +43,26 @@ describe 'Filter: relativeDate', ->
     expect(relativeDate '2012-09-07').toEqual 'a year ago'
     expect(relativeDate '2012-04-07').toEqual 'a year ago'
     expect(relativeDate '2011-04-07').toEqual 'over a year ago'
+
+    # future
+    expect(relativeDate '2013-09-07T12:00:31Z').toEqual '31 seconds from now'
+    expect(relativeDate '2013-09-07T12:00:59Z').toEqual '59 seconds from now'
+    expect(relativeDate '2013-09-07T12:01:00Z').toEqual 'a minute from now'
+    expect(relativeDate '2013-09-07T12:01:01Z').toEqual 'a minute from now'
+    expect(relativeDate '2013-09-07T12:02:00Z').toEqual '2 minutes from now'
+    expect(relativeDate '2013-09-07T12:59:01Z').toEqual '59 minutes from now'
+    expect(relativeDate '2013-09-07T13:00:00Z').toEqual 'an hour from now'
+    expect(relativeDate '2013-09-07T13:00:01Z').toEqual 'an hour from now'
+    expect(relativeDate '2013-09-07T14:00:00Z').toEqual '2 hours from now'
+    expect(relativeDate '2013-09-08T11:00:01Z').toEqual '23 hours from now'
+    expect(relativeDate '2013-09-08T12:00:00Z').toEqual 'tomorrow'
+    expect(relativeDate '2013-09-09T00:00:00Z').toEqual 'tomorrow'
+    expect(relativeDate '2013-09-10T22:59:59Z').toEqual '2 days from now'
+    expect(relativeDate '2013-09-14').toEqual '6 days from now'
+    expect(relativeDate '2013-09-14T12:00:00Z').toEqual 'a week from now'
+    expect(relativeDate '2013-10-05T12:00:00Z').toEqual '4 weeks from now'
+    expect(relativeDate '2013-10-07T12:00:00Z').toEqual 'a month from now'
+    expect(relativeDate '2014-03-07T12:00:00Z').toEqual '6 months from now'
+    expect(relativeDate '2014-09-07T12:00:00Z').toEqual 'a year from now'
+    expect(relativeDate '2015-01-07T12:00:00Z').toEqual 'a year from now'
+    expect(relativeDate '2015-10-07T12:00:00Z').toEqual 'over a year from now'
