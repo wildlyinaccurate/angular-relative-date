@@ -14,7 +14,8 @@
   "license": "MIT",
   "main": "./angular-relative-date.js",
   "dependencies": {
-    "angular": ">=1.0.0"
+    "angular": ">=1.0.0",
+    "angular-translate": ">=2.5.2"
   },
   "devDependencies": {
     "angular-mocks": "1.2.x"
