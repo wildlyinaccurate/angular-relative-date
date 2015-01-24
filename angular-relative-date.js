@@ -1,9 +1,49 @@
 (function() {
   'use strict';
-  angular.module('relativeDate', []).value('now', new Date()).filter('relativeDate', [
-    'now', function(now) {
+  angular.module('relativeDate', []).value('now', new Date()).value('relativeDateTranslations', {
+    just_now: 'just now',
+    seconds_ago: '{{time}} seconds ago',
+    a_minute_ago: 'a minute ago',
+    minutes_ago: '{{time}} minutes ago',
+    an_hour_ago: 'an hour ago',
+    hours_ago: '{{time}} hours ago',
+    a_day_ago: 'yesterday',
+    days_ago: '{{time}} days ago',
+    a_week_ago: 'a week ago',
+    weeks_ago: '{{time}} weeks ago',
+    a_month_ago: 'a month ago',
+    months_ago: '{{time}} months ago',
+    a_year_ago: 'a year ago',
+    years_ago: '{{time}} years ago',
+    over_a_year_ago: 'over a year ago',
+    seconds_from_now: '{{time}} seconds from now',
+    a_minute_from_now: 'a minute from now',
+    minutes_from_now: '{{time}} minutes from now',
+    an_hour_from_now: 'an hour from now',
+    hours_from_now: '{{time}} hours from now',
+    a_day_from_now: 'tomorrow',
+    days_from_now: '{{time}} days from now',
+    a_week_from_now: 'a week from now',
+    weeks_from_now: '{{time}} weeks from now',
+    a_month_from_now: 'a month from now',
+    months_from_now: '{{time}} months from now',
+    a_year_from_now: 'a year from now',
+    years_from_now: '{{time}} years from now',
+    over_a_year_from_now: 'over a year from now'
+  }).filter('relativeDate', [
+    '$injector', 'now', 'relativeDateTranslations', function($injector, now, relativeDateTranslations) {
+      var $translate;
+      if ($injector.has('$translate')) {
+        $translate = $injector.get('$translate');
+      } else {
+        $translate = {
+          instant: function(id, params) {
+            return relativeDateTranslations[id].replace('{{time}}', params.time);
+          }
+        };
+      }
       return function(date) {
-        var calculateDelta, day, delta, hour, minute, month, week, year;
+        var calculateDelta, day, delta, hour, minute, month, translate, week, year;
         if (!(date instanceof Date)) {
           date = new Date(date);
         }
@@ -15,42 +55,55 @@
         month = day * 30;
         year = day * 365;
         calculateDelta = function() {
-          return delta = Math.round((now - date) / 1000);
+          return delta = Math.round(Math.abs(now - date) / 1000);
         };
         calculateDelta();
         if (delta > day && delta < week) {
           date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
           calculateDelta();
         }
+        translate = function(translatePhrase, timeValue) {
+          var translateKey;
+          if (translatePhrase === 'just_now') {
+            translateKey = translatePhrase;
+          } else if (now >= date) {
+            translateKey = "" + translatePhrase + "_ago";
+          } else {
+            translateKey = "" + translatePhrase + "_from_now";
+          }
+          return $translate.instant(translateKey, {
+            time: timeValue
+          });
+        };
         switch (false) {
           case !(delta < 30):
-            return 'just now';
+            return translate('just_now');
           case !(delta < minute):
-            return "" + delta + " seconds ago";
+            return translate('seconds', delta);
           case !(delta < 2 * minute):
-            return 'a minute ago';
+            return translate('a_minute');
           case !(delta < hour):
-            return "" + (Math.floor(delta / minute)) + " minutes ago";
+            return translate('minutes', Math.floor(delta / minute));
           case Math.floor(delta / hour) !== 1:
-            return 'an hour ago';
+            return translate('an_hour');
           case !(delta < day):
-            return "" + (Math.floor(delta / hour)) + " hours ago";
+            return translate('hours', Math.floor(delta / hour));
           case !(delta < day * 2):
-            return 'yesterday';
+            return translate('a_day');
           case !(delta < week):
-            return "" + (Math.floor(delta / day)) + " days ago";
+            return translate('days', Math.floor(delta / day));
           case Math.floor(delta / week) !== 1:
-            return 'a week ago';
+            return translate('a_week');
           case !(delta < month):
-            return "" + (Math.floor(delta / week)) + " weeks ago";
+            return translate('weeks', Math.floor(delta / week));
           case Math.floor(delta / month) !== 1:
-            return 'a month ago';
+            return translate('a_month');
           case !(delta < year):
-            return "" + (Math.floor(delta / month)) + " months ago";
+            return translate('months', Math.floor(delta / month));
           case Math.floor(delta / year) !== 1:
-            return 'a year ago';
+            return translate('a_year');
           default:
-            return 'over a year ago';
+            return translate('over_a_year');
         }
       };
     }

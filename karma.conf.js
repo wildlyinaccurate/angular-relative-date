@@ -7,8 +7,10 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-translate/angular-translate.js',
       '*.coffee',
-      'test/spec/*.coffee'
+      'test/testApp.coffee',
+      'test/spec/*.coffee',
     ],
     exclude: [],
     port: 8080,
