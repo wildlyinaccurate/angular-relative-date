@@ -1,18 +1,19 @@
 'use strict'
 
+NOW = new Date '2013-09-07T12:00:00Z'
+
 describe 'Filter: relativeDate', ->
   relativeDate = null
 
-  NOW = new Date '2013-09-07T12:00:00Z'
+  beforeEach ->
+    module 'relativeDate', ($provide) ->
+      $provide.value 'now', NOW
 
-  beforeEach module 'relativeDate', ($provide) ->
-    $provide.value 'now', NOW
+      # Hack to get around CoffeeScript's implicit return
+      undefined
 
-    # Hack to get around CoffeeScript's implicit return
-    undefined
-
-  beforeEach inject (_$filter_) ->
-    relativeDate = _$filter_ 'relativeDate'
+    inject (_$filter_) ->
+      relativeDate = _$filter_ 'relativeDate'
 
   it 'Allows the `now` value to be set', ->
     inject (now) ->
@@ -66,3 +67,45 @@ describe 'Filter: relativeDate', ->
     expect(relativeDate '2014-09-07T12:00:00Z').toEqual 'a year from now'
     expect(relativeDate '2015-01-07T12:00:00Z').toEqual 'a year from now'
     expect(relativeDate '2015-10-07T12:00:00Z').toEqual 'over a year from now'
+
+describe 'Filter: relativeDate', ->
+  relativeDate = null
+
+  beforeEach ->
+    module 'relativeDate', ($provide) ->
+      $provide.value 'now', NOW
+      $provide.value 'relativeDateTranslations', {
+        weeks_ago: '{{time}}週間前'
+        a_year_ago: '一年前'
+        hours_from_now: '{{time}}時間今から'
+      }
+
+      undefined
+
+    inject (_$filter_) ->
+      relativeDate = _$filter_ 'relativeDate'
+
+  it 'Performs simple translations', ->
+    expect(relativeDate '2013-08-09').toEqual '4週間前'
+    expect(relativeDate '2012-09-07').toEqual '一年前'
+    expect(relativeDate '2013-09-07T14:00:00Z').toEqual '2時間今から'
+
+describe 'Filter: relativeDate', ->
+  $scope = null
+
+  beforeEach ->
+    module 'myApp', ($provide) ->
+      $provide.value 'now', NOW
+      undefined
+
+    inject ($rootScope, $controller, $filter) ->
+      $scope = $rootScope.$new()
+      $controller('TestCtrl', {
+        $scope: $scope
+      })
+
+  describe 'Integration with angular-translate', ->
+    it 'Uses angular-translate when available', ->
+      expect($scope.fourWeeksAgo).toEqual '4週間前'
+      expect($scope.aYearAgo).toEqual '一年前'
+      expect($scope.twoHoursFromNow).toEqual '2時間今から'
