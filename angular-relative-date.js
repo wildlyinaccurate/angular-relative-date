@@ -31,10 +31,10 @@
     years_from_now: '{{time}} years from now',
     over_a_year_from_now: 'over a year from now'
   }).filter('relativeDate', [
-    '$injector', '$filter', 'now', 'relativeDateTranslations', function($injector, $filter, now, relativeDateTranslations) {
+    '$injector', 'now', 'relativeDateTranslations', function($injector, now, relativeDateTranslations) {
       var $translate;
       if ($injector.has('$translate')) {
-        $translate = $injector.get('translate');
+        $translate = $injector.get('$translate');
       } else {
         $translate = {
           instant: function(id, params) {
@@ -43,12 +43,11 @@
         };
       }
       return function(date) {
-        var calculateDelta, day, delta, hour, minute, month, timeValue, translateKey, translatePhrase, week, year;
+        var calculateDelta, day, delta, hour, minute, month, translate, week, year;
         if (!(date instanceof Date)) {
           date = new Date(date);
         }
         delta = null;
-        timeValue = null;
         minute = 60;
         hour = minute * 60;
         day = hour * 24;
@@ -63,65 +62,49 @@
           date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
           calculateDelta();
         }
+        translate = function(translatePhrase, timeValue) {
+          var translateKey;
+          if (translatePhrase === 'just_now') {
+            translateKey = translatePhrase;
+          } else if (now >= date) {
+            translateKey = "" + translatePhrase + "_ago";
+          } else {
+            translateKey = "" + translatePhrase + "_from_now";
+          }
+          return $translate.instant(translateKey, {
+            time: timeValue
+          });
+        };
         switch (false) {
           case !(delta < 30):
-            translatePhrase = 'just_now';
-            break;
+            return translate('just_now');
           case !(delta < minute):
-            translatePhrase = 'seconds';
-            timeValue = delta;
-            break;
+            return translate('seconds', delta);
           case !(delta < 2 * minute):
-            translatePhrase = 'a_minute';
-            break;
+            return translate('a_minute');
           case !(delta < hour):
-            translatePhrase = 'minutes';
-            timeValue = Math.floor(delta / minute);
-            break;
+            return translate('minutes', Math.floor(delta / minute));
           case Math.floor(delta / hour) !== 1:
-            translatePhrase = 'an_hour';
-            break;
+            return translate('an_hour');
           case !(delta < day):
-            translatePhrase = 'hours';
-            timeValue = Math.floor(delta / hour);
-            break;
+            return translate('hours', Math.floor(delta / hour));
           case !(delta < day * 2):
-            translatePhrase = 'a_day';
-            break;
+            return translate('a_day');
           case !(delta < week):
-            translatePhrase = 'days';
-            timeValue = Math.floor(delta / day);
-            break;
+            return translate('days', Math.floor(delta / day));
           case Math.floor(delta / week) !== 1:
-            translatePhrase = 'a_week';
-            break;
+            return translate('a_week');
           case !(delta < month):
-            translatePhrase = 'weeks';
-            timeValue = Math.floor(delta / week);
-            break;
+            return translate('weeks', Math.floor(delta / week));
           case Math.floor(delta / month) !== 1:
-            translatePhrase = 'a_month';
-            break;
+            return translate('a_month');
           case !(delta < year):
-            translatePhrase = 'months';
-            timeValue = Math.floor(delta / month);
-            break;
+            return translate('months', Math.floor(delta / month));
           case Math.floor(delta / year) !== 1:
-            translatePhrase = 'a_year';
-            break;
+            return translate('a_year');
           default:
-            translatePhrase = 'over_a_year';
+            return translate('over_a_year');
         }
-        if (translatePhrase === 'just_now') {
-          translateKey = translatePhrase;
-        } else if (now >= date) {
-          translateKey = "" + translatePhrase + "_ago";
-        } else {
-          translateKey = "" + translatePhrase + "_from_now";
-        }
-        return $translate.instant(translateKey, {
-          time: timeValue
-        });
       };
     }
   ]);

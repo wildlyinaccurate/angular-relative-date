@@ -33,7 +33,7 @@ angular.module('relativeDate', [])
     years_from_now: '{{time}} years from now'
     over_a_year_from_now: 'over a year from now'
   })
-  .filter 'relativeDate', ['$injector', '$filter', 'now', 'relativeDateTranslations', ($injector, $filter, now, relativeDateTranslations) ->
+  .filter 'relativeDate', ['$injector', 'now', 'relativeDateTranslations', ($injector, now, relativeDateTranslations) ->
     if $injector.has('$translate')
       # Use angular-translate (or any service which implements .instant(id, params)) if it's available
       $translate = $injector.get('$translate')
@@ -47,7 +47,6 @@ angular.module('relativeDate', [])
     (date) ->
       date = new Date(date) unless date instanceof Date
       delta = null
-      timeValue = null
 
       minute = 60
       hour = minute * 60
@@ -66,40 +65,29 @@ angular.module('relativeDate', [])
         date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
         calculateDelta()
 
+      translate = (translatePhrase, timeValue) ->
+        if translatePhrase == 'just_now'
+          translateKey = translatePhrase
+        else if now >= date
+          translateKey = "#{translatePhrase}_ago"
+        else
+          translateKey = "#{translatePhrase}_from_now"
+
+        $translate.instant(translateKey, { time: timeValue })
+
       switch
-        when delta < 30 then translatePhrase = 'just_now'
-        when delta < minute
-          translatePhrase = 'seconds'
-          timeValue = delta
-        when delta < 2 * minute then translatePhrase = 'a_minute'
-        when delta < hour
-          translatePhrase = 'minutes'
-          timeValue = Math.floor(delta / minute)
-        when Math.floor(delta / hour) == 1 then translatePhrase = 'an_hour'
-        when delta < day
-          translatePhrase = 'hours'
-          timeValue = Math.floor(delta / hour)
-        when delta < day * 2 then translatePhrase = 'a_day'
-        when delta < week
-          translatePhrase = 'days'
-          timeValue = Math.floor(delta / day)
-        when Math.floor(delta / week) == 1 then translatePhrase = 'a_week'
-        when delta < month
-          translatePhrase = 'weeks'
-          timeValue = Math.floor(delta / week)
-        when Math.floor(delta / month) == 1 then translatePhrase = 'a_month'
-        when delta < year
-          translatePhrase = 'months'
-          timeValue = Math.floor(delta / month)
-        when Math.floor(delta / year) == 1 then translatePhrase = 'a_year'
-        else translatePhrase = 'over_a_year'
-
-      if translatePhrase == 'just_now'
-        translateKey = translatePhrase
-      else if now >= date
-        translateKey = "#{translatePhrase}_ago"
-      else
-        translateKey = "#{translatePhrase}_from_now"
-
-      $translate.instant(translateKey, { time: timeValue })
+        when delta < 30 then translate('just_now')
+        when delta < minute then translate('seconds', delta)
+        when delta < 2 * minute then translate('a_minute')
+        when delta < hour then translate('minutes', Math.floor(delta / minute))
+        when Math.floor(delta / hour) == 1 then translate('an_hour')
+        when delta < day then translate('hours', Math.floor(delta / hour))
+        when delta < day * 2 then translate('a_day')
+        when delta < week then translate('days', Math.floor(delta / day))
+        when Math.floor(delta / week) == 1 then translate('a_week')
+        when delta < month then translate('weeks', Math.floor(delta / week))
+        when Math.floor(delta / month) == 1 then translate('a_month')
+        when delta < year then translate('months', Math.floor(delta / month))
+        when Math.floor(delta / year) == 1 then translate('a_year')
+        else translate('over_a_year')
   ]
