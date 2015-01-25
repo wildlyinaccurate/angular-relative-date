@@ -22,7 +22,7 @@ Use the filter by passing it date strings or `Date` objects.
 
 ```html
 <script>
-angular.module('myApp').controller('MainCtrl', function($scope) {
+angular.module('myApp', ['relativeDate']).controller('MainCtrl', function($scope) {
     $scope.dateString = '2013-09-08';
     $scope.dateObject = new Date();
 });
@@ -44,7 +44,7 @@ Simple internationalisation support is available via the `relativeDateTranslatio
 
 ```html
 <script>
-angular.module('myApp')
+angular.module('myApp', ['relativeDate'])
        .value('relativeDateTranslations', {
             just_now: '今'
        })
