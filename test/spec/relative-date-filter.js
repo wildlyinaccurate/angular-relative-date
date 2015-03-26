@@ -74,6 +74,40 @@ describe('Filter: relativeDate', function() {
   var relativeDate
 
   beforeEach(function() {
+    module('relativeDate')
+
+    inject(function(_$filter_) {
+      relativeDate = _$filter_('relativeDate')
+    })
+  })
+
+  it('Updates the value of NOW', function() {
+    // Create a date 29 seconds ago (30 is the "just now" cutoff)
+    var now = new Date(new Date() - 29000)
+    var flag
+
+    expect(relativeDate(now)).toEqual('just now')
+
+    runs(function() {
+      setTimeout(function() {
+        flag = true
+      }, 1001)
+    })
+
+    waitsFor(function() {
+      return flag
+    })
+
+    runs(function() {
+      expect(relativeDate(now)).toEqual('30 seconds ago')
+    })
+  })
+})
+
+describe('Filter: relativeDate', function() {
+  var relativeDate
+
+  beforeEach(function() {
     module('relativeDate', function($provide) {
       $provide.value('now', NOW)
       $provide.value('relativeDateTranslations', {

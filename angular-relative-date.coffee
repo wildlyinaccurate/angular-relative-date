@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('relativeDate', [])
-  .value('now', new Date())
+  .value('now', null)
   .value('relativeDateTranslations', {
     just_now: 'just now'
     seconds_ago: '{{time}} seconds ago'
@@ -33,7 +33,7 @@ angular.module('relativeDate', [])
     years_from_now: '{{time}} years from now'
     over_a_year_from_now: 'over a year from now'
   })
-  .filter 'relativeDate', ['$injector', 'now', 'relativeDateTranslations', ($injector, now, relativeDateTranslations) ->
+  .filter 'relativeDate', ['$injector', 'now', 'relativeDateTranslations', ($injector, _now, relativeDateTranslations) ->
     if $injector.has('$translate')
       # Use angular-translate (or any service which implements .instant(id, params)) if it's available
       $translate = $injector.get('$translate')
@@ -44,7 +44,11 @@ angular.module('relativeDate', [])
           relativeDateTranslations[id].replace('{{time}}', params.time)
       }
 
+    calculateDelta = (now, date) ->
+      Math.round(Math.abs(now - date) / 1000)
+
     (date) ->
+      now = if _now then _now else new Date()
       date = new Date(date) unless date instanceof Date
       delta = null
 
@@ -55,15 +59,12 @@ angular.module('relativeDate', [])
       month = day * 30
       year = day * 365
 
-      calculateDelta = ->
-        delta = Math.round(Math.abs(now - date) / 1000)
-
-      calculateDelta()
+      delta = calculateDelta(now, date)
 
       if delta > day && delta < week
         # We're dealing with days now, so time becomes irrelevant
         date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
-        calculateDelta()
+        delta = calculateDelta(now, date)
 
       translate = (translatePhrase, timeValue) ->
         if translatePhrase == 'just_now'

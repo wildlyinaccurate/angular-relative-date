@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('relativeDate', []).value('now', new Date()).value('relativeDateTranslations', {
+  angular.module('relativeDate', []).value('now', null).value('relativeDateTranslations', {
     just_now: 'just now',
     seconds_ago: '{{time}} seconds ago',
     a_minute_ago: 'a minute ago',
@@ -31,8 +31,8 @@
     years_from_now: '{{time}} years from now',
     over_a_year_from_now: 'over a year from now'
   }).filter('relativeDate', [
-    '$injector', 'now', 'relativeDateTranslations', function($injector, now, relativeDateTranslations) {
-      var $translate;
+    '$injector', 'now', 'relativeDateTranslations', function($injector, _now, relativeDateTranslations) {
+      var $translate, calculateDelta;
       if ($injector.has('$translate')) {
         $translate = $injector.get('$translate');
       } else {
@@ -42,8 +42,12 @@
           }
         };
       }
+      calculateDelta = function(now, date) {
+        return Math.round(Math.abs(now - date) / 1000);
+      };
       return function(date) {
-        var calculateDelta, day, delta, hour, minute, month, translate, week, year;
+        var day, delta, hour, minute, month, now, translate, week, year;
+        now = _now ? _now : new Date();
         if (!(date instanceof Date)) {
           date = new Date(date);
         }
@@ -54,13 +58,10 @@
         week = day * 7;
         month = day * 30;
         year = day * 365;
-        calculateDelta = function() {
-          return delta = Math.round(Math.abs(now - date) / 1000);
-        };
-        calculateDelta();
+        delta = calculateDelta(now, date);
         if (delta > day && delta < week) {
           date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-          calculateDelta();
+          delta = calculateDelta(now, date);
         }
         translate = function(translatePhrase, timeValue) {
           var translateKey;
