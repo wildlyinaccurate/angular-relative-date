@@ -23,7 +23,7 @@ Use the filter by passing it date strings or `Date` objects.
 ```html
 <script>
 angular.module('myApp', ['relativeDate']).controller('MainCtrl', function($scope) {
-    $scope.dateString = '2013-09-08';
+    $scope.dateString = '2015-05-08';
     $scope.dateObject = new Date();
 });
 </script>
