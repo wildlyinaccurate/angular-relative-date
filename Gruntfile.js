@@ -42,17 +42,13 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('test', [
-    'karma'
-  ]);
+  grunt.registerTask('test', ['karma']);
 
   grunt.registerTask('build', [
     'coffee',
-    'uglify'
+    'uglify',
+    'test'
   ]);
 
-  grunt.registerTask('default', [
-    'test',
-    'build'
-  ]);
+  grunt.registerTask('default', ['build']);
 };
