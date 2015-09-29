@@ -112,6 +112,12 @@ myApp.config(function ($translateProvider) {
 | `years_from_now`       | {{time}} years from now   |
 | `over_a_year_from_now` | over a year from now      |
 
+## Contributing
+
+Please modify `angular-relative-date.coffee` and then run `grunt build` to compile and minify the JavaScript (you may need to run `npm install` first).
+
+Submit your change as a pull request, including a description of the change. Please be sure to add any relevant test cases to `test/spec/relativ-date-filter.js`.
+
 ## License
 
 Released under the terms of MIT License:
