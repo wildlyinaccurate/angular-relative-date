@@ -68,9 +68,9 @@
           if (translatePhrase === 'just_now') {
             translateKey = translatePhrase;
           } else if (now >= date) {
-            translateKey = "" + translatePhrase + "_ago";
+            translateKey = translatePhrase + "_ago";
           } else {
-            translateKey = "" + translatePhrase + "_from_now";
+            translateKey = translatePhrase + "_from_now";
           }
           return $translate.instant(translateKey, {
             time: timeValue
@@ -112,6 +112,4 @@
 
 }).call(this);
 
-/*
-//@ sourceMappingURL=angular-relative-date.js.map
-*/
+//# sourceMappingURL=angular-relative-date.js.map

@@ -81,26 +81,18 @@ describe('Filter: relativeDate', function() {
     })
   })
 
-  it('Updates the value of NOW', function() {
+  it('Updates the value of NOW', function(done) {
     // Create a date 29 seconds ago (30 is the "just now" cutoff)
     var now = new Date(new Date() - 29000)
     var flag
 
     expect(relativeDate(now)).toEqual('just now')
 
-    runs(function() {
-      setTimeout(function() {
-        flag = true
-      }, 1001)
-    })
-
-    waitsFor(function() {
-      return flag
-    })
-
-    runs(function() {
+    setTimeout(function() {
       expect(relativeDate(now)).toEqual('30 seconds ago')
-    })
+
+      done()
+    }, 1001)
   })
 })
 
