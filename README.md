@@ -6,10 +6,16 @@ AngularJS filter for creating relative, human-readable dates.
 
 ## Usage
 
-Include angular-relative-date.js in your application.
+For regular usage, just download and include `dist/angular-relative-date.js` in your application.
 
 ```html
 <script src="angular-relative-date.js"></script>
+```
+
+You can also use the ES6 module directly using a packaging tool like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/).
+
+```js
+import relativeDate from 'angular-relative-date'
 ```
 
 Add the `relativeDate` module to your application's dependencies.
