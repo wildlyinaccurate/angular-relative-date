@@ -25,6 +25,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-standard": "^5.2.2",
     "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
     "jasmine": "^2.4.1",
     "karma": "^0.13.19",
     "karma-html2js-preprocessor": "^0.1.0",
