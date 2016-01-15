@@ -1,6 +1,4 @@
-module.exports = function(config) {
-  'use strict';
-
+module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
@@ -8,7 +6,7 @@ module.exports = function(config) {
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/angular-translate/dist/angular-translate.js',
-      '*.js',
+      'dist/angular-relative-date.js',
       'test/testApp.js',
       'test/spec/*.js',
     ],
@@ -18,5 +16,5 @@ module.exports = function(config) {
     autoWatch: false,
     browsers: ['PhantomJS'],
     singleRun: false
-  });
-};
+  })
+}
