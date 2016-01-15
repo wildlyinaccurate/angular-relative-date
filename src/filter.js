@@ -8,13 +8,13 @@ const getTranslate = (injector, translations) => {
   }
 }
 
+const calculateDelta = (now, date) => Math.round(Math.abs(now - date) / 1000)
+
 export default function relativeDateFilter ($injector, _now, relativeDateTranslations) {
   const $translate = getTranslate($injector, relativeDateTranslations)
 
-  const calculateDelta = (now, date) => Math.round(Math.abs(now - date) / 1000)
-
   return function (date) {
-    const now = _now ? _now : new Date()
+    const now = _now || new Date()
 
     if (!(date instanceof Date)) {
       date = new Date(date)

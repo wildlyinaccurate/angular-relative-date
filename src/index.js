@@ -1,3 +1,5 @@
+/* global angular */
+
 import translations from './translations'
 import filter from './filter'
 

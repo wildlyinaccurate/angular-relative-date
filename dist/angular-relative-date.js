@@ -17,15 +17,15 @@ var getTranslate = function getTranslate(injector, translations) {
   }
 };
 
+var calculateDelta = function calculateDelta(now, date) {
+  return Math.round(Math.abs(now - date) / 1000);
+};
+
 function relativeDateFilter($injector, _now, relativeDateTranslations) {
   var $translate = getTranslate($injector, relativeDateTranslations);
 
-  var calculateDelta = function calculateDelta(now, date) {
-    return Math.round(Math.abs(now - date) / 1000);
-  };
-
   return function (date) {
-    var now = _now ? _now : new Date();
+    var now = _now || new Date();
 
     if (!(date instanceof Date)) {
       date = new Date(date);
@@ -126,9 +126,11 @@ var _filter2 = _interopRequireDefault(_filter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* global angular */
+
 var relativeDate = angular.module('relativeDate', []);
 
-relativeDate.value('now', null);
+relativeDate.value('now', undefined);
 relativeDate.value('relativeDateTranslations', _translations2.default);
 
 relativeDate.filter('relativeDate', ['$injector', 'now', 'relativeDateTranslations', _filter2.default]);

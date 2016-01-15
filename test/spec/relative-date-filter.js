@@ -21,7 +21,7 @@ describe('Filter: relativeDate', function() {
 
   it('Has the correct response for each interval', function() {
     // Past
-    expect(relativeDate('2013-09-07T12:00:00Z')).toEqual('just now+')
+    expect(relativeDate('2013-09-07T12:00:00Z')).toEqual('just now')
     expect(relativeDate('2013-09-07T11:59:31Z')).toEqual('just now')
     expect(relativeDate('2013-09-07T11:59:29Z')).toEqual('31 seconds ago')
     expect(relativeDate('2013-09-07T11:59:01Z')).toEqual('59 seconds ago')

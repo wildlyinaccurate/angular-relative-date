@@ -1,6 +1,6 @@
 import gulp from 'gulp'
 import gutil from 'gulp-util'
-import standard from 'standard';
+import standard from 'gulp-standard'
 import browserify from 'browserify'
 import rename from 'gulp-rename'
 import uglify from 'gulp-uglify'
