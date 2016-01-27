@@ -1,0 +1,33 @@
+{
+  "just_now"            : "ligenu",
+  "seconds_ago"         : "{{time}} sekunder siden",
+  "a_minute_ago"        : "et minut siden",
+  "minutes_ago"         : "{{time}} minutter siden",
+  "an_hour_ago"         : "en time siden",
+  "hours_ago"           : "{{time}} timer siden",
+  "a_day_ago"           : "i går",
+  "days_ago"            : "{{time}} dage siden",
+  "a_week_ago"          : "en uge siden",
+  "weeks_ago"           : "{{time}} uger siden",
+  "a_month_ago"         : "en måned siden",
+  "months_ago"          : "{{time}} måneder siden",
+  "a_year_ago"          : "et år siden",
+  "years_ago"           : "{{time}} år siden",
+  "over_a_year_ago"     : "over et år siden",
+  "seconds_from_now"    : "om {{time}} sekunder",
+  "a_minute_from_now"   : "om et minut",
+  "minutes_from_now"    : "om {{time}} minutter",
+  "an_hour_from_now"    : "om en time",
+  "hours_from_now"      : "om {{time}} timer",
+  "a_day_from_now"      : "i morgen",
+  "days_from_now"       : "om {{time}} dage",
+  "a_week_from_now"     : "om en uge",
+  "weeks_from_now"      : "om {{time}} uger",
+  "a_month_from_now"    : "om en måned",
+  "months_from_now"     : "om {{time}} måneder",
+  "a_year_from_now"     : "om et år",
+  "years_from_now"      : "om {{time}} år",
+  "over_a_year_from_now": "om over et år"
+
+
+}
