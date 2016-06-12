@@ -2,6 +2,7 @@ import gulp from 'gulp'
 import gutil from 'gulp-util'
 import standard from 'gulp-standard'
 import browserify from 'browserify'
+import derequire from 'gulp-derequire'
 import rename from 'gulp-rename'
 import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
@@ -26,6 +27,7 @@ gulp.task('js', () => {
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('.'))
+    .pipe(derequire())
     .pipe(gulp.dest('dist'))
 })
 
