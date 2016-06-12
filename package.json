@@ -1,6 +1,6 @@
 {
   "name": "angular-relative-date",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "AngularJS filter to provide relative, human-readable dates.",
   "main": "dist/angular-relative-date.js",
   "jsnext:main": "src/index.js",
