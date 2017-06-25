@@ -4,6 +4,8 @@
 
 AngularJS filter for creating relative, human-readable dates.
 
+> A vanilla JavaScript (i.e. not Angular) version of this module is available: [wildlyinaccurate/tiny-relative-date](https://github.com/wildlyinaccurate/tiny-relative-date)
+
 ## Usage
 
 For regular usage, just download and include `dist/angular-relative-date.js` in your application.
