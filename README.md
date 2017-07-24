@@ -1,6 +1,10 @@
 # angular-relative-date
 
 [![Build Status](https://travis-ci.org/wildlyinaccurate/angular-relative-date.png?branch=master)](https://travis-ci.org/wildlyinaccurate/angular-relative-date)
+[![Downloads](https://img.shields.io/npm/dm/angular-relative-date.svg?style=flat-square)](http://npm-stat.com/charts.html?package=angular-relative-date&from=2017-07-01)
+![License](https://img.shields.io/npm/l/angular-relative-date.svg?style=flat-square)
+![size](http://img.badgesize.io/https://unpkg.com/angular-relative-date/dist/angular-relative-date.min.js?label=size&style=flat-square)
+![gzip size](http://img.badgesize.io/https://unpkg.com/angular-relative-date/dist/angular-relative-date.min.js?compression=gzip&label=gzip%20size&style=flat-square)
 
 AngularJS filter for creating relative, human-readable dates.
 
